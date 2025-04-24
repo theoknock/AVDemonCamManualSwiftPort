@@ -138,6 +138,11 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
                 return
             }
             
+            if let connection  = movieOutput.connection(with: .video) {
+                if connection.isVideoStabilizationSupported {
+                    connection.preferredVideoStabilizationMode = .auto
+                }
+            }
             self.session.commitConfiguration()
             
             self.startSession()

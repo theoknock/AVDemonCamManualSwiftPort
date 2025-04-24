@@ -1,6 +1,36 @@
 {
   "colors" : [
     {
+      "color" : {
+        "platform" : "osx",
+        "reference" : "systemYellowColor"
+      },
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "light"
+        }
+      ],
+      "color" : {
+        "platform" : "osx",
+        "reference" : "systemYellowColor"
+      },
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "color" : {
+        "platform" : "osx",
+        "reference" : "systemYellowColor"
+      },
       "idiom" : "universal"
     }
   ],
