@@ -10,11 +10,7 @@ struct CameraControlsView: View {
         VStack {
             // Top Control Buttons
             HStack {
-                Button(action: viewModel.toggleMovieRecording) {
-                    Image(systemName: viewModel.isRecording ? "stop.circle" : "record.circle")
-                        .font(.largeTitle)
-                        .foregroundColor(viewModel.isRecording ? .red : .green)
-                }
+                
                 
                 Button(action: { viewModel.showHUD.toggle() }) {
                     Text(viewModel.showHUD ? "Hide HUD" : "Show HUD")
@@ -23,6 +19,16 @@ struct CameraControlsView: View {
                         .cornerRadius(8)
                         .foregroundColor(.white)
                 }
+                
+                Button(action: viewModel.toggleMovieRecording) {
+                    Image(systemName: viewModel.isRecording ? "stop.circle" : "record.circle")
+                        .font(.largeTitle)
+                        .foregroundColor(viewModel.isRecording ? .red : .green)
+                        .overlay(
+                            !viewModel.showHUD ? Color.black : Color.clear
+                        )
+                }
+                .disabled(!viewModel.showHUD)
                 
                 Button(action: {
                     viewModel.coverViewVisible.toggle()

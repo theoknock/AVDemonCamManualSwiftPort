@@ -3,7 +3,7 @@
 Add Record button to CameraControlsView to prevent accidental interruptions to recordings in progress or to unintentionally (and, possibly, unknowingly) start a recording
 ## Fixes to existing features
 1. Toggle Cover
-* Expand the Toggle Cover view to cover the entire CameraPreview view
+* ~~Expand the Toggle Cover view to cover the entire CameraPreview view~~
 * Hide uncover functionality or...
 * find a way to prevent unintentionally
 * add ability to pause recording when video preview window is covered
