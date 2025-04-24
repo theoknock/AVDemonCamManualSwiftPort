@@ -130,7 +130,7 @@ struct CameraControlsView: View {
                 Text("Locked").tag(AVCaptureDevice.FocusMode.locked)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .onChange(of: viewModel.focusMode) { newMode in
+            .onChange(of: viewModel.focusMode) { oldMode, newMode in
                 viewModel.setFocusMode(newMode)
             }
 
@@ -140,7 +140,7 @@ struct CameraControlsView: View {
                                   set: { val in viewModel.lensPositionSliderValue = Float(val) }),
                    in: 0...1)
                 .disabled(!viewModel.canSetLensPosition)
-                .onChange(of: viewModel.lensPositionSliderValue) { _ in
+                .onChange(of: viewModel.lensPositionSliderValue) { oldSliderValue, newSliderValue in
                     viewModel.setLensPosition(viewModel.lensPositionSliderValue)
                 }
 
@@ -170,7 +170,7 @@ struct CameraControlsView: View {
                 Text("Custom").tag(AVCaptureDevice.ExposureMode.custom)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .onChange(of: viewModel.exposureMode) { mode in
+            .onChange(of: viewModel.exposureMode) { oldMode, mode in
                 viewModel.setExposureMode(mode)
             }
 
@@ -178,7 +178,7 @@ struct CameraControlsView: View {
                 .foregroundColor(.white)
             Slider(value: $viewModel.exposureDurationSliderValue, in: 0...1)
                 .disabled(viewModel.exposureMode != .custom)
-                .onChange(of: viewModel.exposureDurationSliderValue) { _ in
+                .onChange(of: viewModel.exposureDurationSliderValue) { _, _ in
                     viewModel.applyExposureDuration()
                 }
 
@@ -186,7 +186,7 @@ struct CameraControlsView: View {
                 .foregroundColor(.white)
             Slider(value: $viewModel.ISOSliderValue, in: 0...1)
                 .disabled(viewModel.exposureMode != .custom)
-                .onChange(of: viewModel.ISOSliderValue) { _ in
+                .onChange(of: viewModel.ISOSliderValue) { _, _ in
                     viewModel.applyISO()
                 }
         }
@@ -198,7 +198,7 @@ struct CameraControlsView: View {
             Text("Video Zoom Factor")
                 .foregroundColor(.white)
             Slider(value: $viewModel.videoZoomFactorSliderValue, in: 0...1)
-                .onChange(of: viewModel.videoZoomFactorSliderValue) { _ in
+                .onChange(of: viewModel.videoZoomFactorSliderValue) { oldVideoZoomFactorSliderValue, newVideoZoomFactorSliderValue in
                     viewModel.applyZoomFactor()
                 }
         }
@@ -212,7 +212,7 @@ struct CameraControlsView: View {
             Slider(value: Binding(get: { Double(viewModel.torchLevelSliderValue) },
                                   set: { val in viewModel.torchLevelSliderValue = Float(val) }),
                    in: 0...1)
-                .onChange(of: viewModel.torchLevelSliderValue) { _ in
+                .onChange(of: viewModel.torchLevelSliderValue) { _, _ in
                     viewModel.applyTorchLevel()
                 }
         }
@@ -228,15 +228,15 @@ struct CameraControlsView: View {
                 Text("Locked").tag(AVCaptureDevice.WhiteBalanceMode.locked)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .onChange(of: viewModel.whiteBalanceMode) { mode in
-                viewModel.setWhiteBalanceMode(mode)
+            .onChange(of: viewModel.whiteBalanceMode) { oldMode, newMode in
+                viewModel.setWhiteBalanceMode(newMode)
             }
 
             Text("Temperature")
                 .foregroundColor(.white)
             Slider(value: $viewModel.temperatureSliderValue, in: 0...1)
                 .disabled(viewModel.whiteBalanceMode != .locked)
-                .onChange(of: viewModel.temperatureSliderValue) { _ in
+                .onChange(of: viewModel.temperatureSliderValue) { oldTemperatureSliderValue, newTemperatureSliderValue in
                     viewModel.applyWhiteBalanceGains()
                 }
 
@@ -244,7 +244,7 @@ struct CameraControlsView: View {
                 .foregroundColor(.white)
             Slider(value: $viewModel.tintSliderValue, in: 0...1)
                 .disabled(viewModel.whiteBalanceMode != .locked)
-                .onChange(of: viewModel.tintSliderValue) { _ in
+                .onChange(of: viewModel.tintSliderValue) { oldTintSliderValue, TintSliderValue in
                     viewModel.applyWhiteBalanceGains()
                 }
 

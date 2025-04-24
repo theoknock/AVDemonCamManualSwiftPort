@@ -41,7 +41,7 @@ func propertyControlValue(_ propertyValue: Double, propertyMin: Double, property
     return pow((propertyValue - propertyMin) / (propertyMax - propertyMin), 1.0 / inverseGamma)
 }
 
-func setLensPositionScale(_ valueMin: Double, _ valueMax: Double, _ newValueMin: Double, _ newValueMax: Double) -> (Double) -> Double {
+func hh(_ valueMin: Double, _ valueMax: Double, _ newValueMin: Double, _ newValueMax: Double) -> (Double) -> Double {
     return { value in
         return (newValueMax - newValueMin) * (value - valueMin) / (valueMax - valueMin) + newValueMin
     }
@@ -55,7 +55,8 @@ struct AVDemonCamManualSwiftPortApp: App {
     var body: some Scene {
         WindowGroup {
             CameraView(viewModel: viewModel)
-                .onChange(of: scenePhase) { newPhase in
+                .onChange(of: scenePhase) { oldValue, newPhase in
+//                .onChange(of: scenePhase) { newPhase in
                     switch newPhase {
                     case .active:
                         print("App is active")
