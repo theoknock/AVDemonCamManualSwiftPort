@@ -36,5 +36,14 @@ struct CameraView: View {
         .alert(isPresented: $viewModel.showAlert) {
             Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
         }
+        
+        VStack {
+            Text("AVMotionDetector2025 — James Alan Bush")
+                .font(.system(size: 10))
+                .foregroundColor(.gray)
+                .fixedSize() // Prevents text from wrapping or expanding vertically
+                .frame(height: 10) // Enforce container height
+                .padding(.bottom, 4)
+        }
     }
 }
