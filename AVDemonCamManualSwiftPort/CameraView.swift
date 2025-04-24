@@ -38,12 +38,14 @@ struct CameraView: View {
         }
         
         VStack {
-            Text("AVMotionDetector2025 — James Alan Bush")
-                .font(.system(size: 10))
-                .foregroundColor(.gray)
-                .fixedSize() // Prevents text from wrapping or expanding vertically
-                .frame(height: 10) // Enforce container height
-                .padding(.bottom, 4)
+            Link(destination: URL(string: "https://github.com/theoknock/AVDemonCamManualSwiftPort/tree/main")!) {
+                Text("AVMotionDetector2025 (b1fab7e)\t\tJames Alan Bush")
+                    .font(.system(size: 10))
+                    .foregroundColor(.gray)
+                    .fixedSize() // Prevents text from wrapping or expanding vertically
+                    .frame(height: 10) // Enforce container height
+                    .padding(.bottom, 4)
+            }
         }
     }
 }

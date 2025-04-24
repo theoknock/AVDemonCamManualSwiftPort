@@ -34,15 +34,15 @@ struct CameraControlsView: View {
                 Button(action: {
                     viewModel.coverViewVisible.toggle()
                 }) {
-                    Label(viewModel.coverViewVisible ? "Reveal HUD" : "Cloak HUD", systemImage: viewModel.coverViewVisible ? "eye" : "eye.slash")
-//                    Text("Toggle Cover")
-//                        .padding()
-//                        .background(Color.black.opacity(0.5))
-//                        .cornerRadius(8)
-//                        .foregroundColor(.white)
+                    Label(viewModel.coverViewVisible ? "" : "", systemImage: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.down.left.slash" : "rectangle.and.arrow.up.right.and.arrow.down.left")
+                    //                    Text("Toggle Cover")
+//                                            .padding()
+//                                            .background(Color.black.opacity(0.5))
+//                                            .cornerRadius(8)
+                    //                        .foregroundColor(.white)
                 }
-//                .disabled(!viewModel.showHUD)
-//                .opacity(viewModel.showHUD ? 1 : 0 )
+                //                .disabled(!viewModel.showHUD)
+                //                .opacity(viewModel.showHUD ? 1 : 0 )
             }
             .padding(.bottom, 10)
             
@@ -120,8 +120,6 @@ struct CameraControlsView: View {
                             }) {
                                 
                                 HStack {
-                                    
-                                    
                                     Image(systemName: "rectangle.and.arrow.up.right.and.arrow.down.left.slash")
                                         .imageScale(.large)
                                         .foregroundStyle(.tint)
