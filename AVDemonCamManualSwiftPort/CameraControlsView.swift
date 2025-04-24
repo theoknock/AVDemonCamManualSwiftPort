@@ -5,7 +5,7 @@ import Foundation
 
 struct CameraControlsView: View {
     @ObservedObject var viewModel: CameraViewModel
-
+    
     var body: some View {
         VStack {
             // Top Control Buttons
@@ -15,7 +15,7 @@ struct CameraControlsView: View {
                         .font(.largeTitle)
                         .foregroundColor(viewModel.isRecording ? .red : .green)
                 }
-
+                
                 Button(action: { viewModel.showHUD.toggle() }) {
                     Text(viewModel.showHUD ? "Hide HUD" : "Show HUD")
                         .padding()
@@ -23,7 +23,7 @@ struct CameraControlsView: View {
                         .cornerRadius(8)
                         .foregroundColor(.white)
                 }
-
+                
                 Button(action: {
                     viewModel.coverViewVisible.toggle()
                 }) {
@@ -32,10 +32,12 @@ struct CameraControlsView: View {
                         .background(Color.black.opacity(0.5))
                         .cornerRadius(8)
                         .foregroundColor(.white)
+                    
+                    
                 }
             }
             .padding(.bottom, 10)
-
+            
             // Conditional Buttons and Messages
             if viewModel.resumeButtonVisible {
                 Button("Resume") {
@@ -46,7 +48,7 @@ struct CameraControlsView: View {
                 .foregroundColor(.white)
                 .cornerRadius(8)
             }
-
+            
             if viewModel.cameraUnavailable {
                 Text("Camera Unavailable")
                     .padding()
@@ -54,7 +56,7 @@ struct CameraControlsView: View {
                     .cornerRadius(8)
                     .foregroundColor(.white)
             }
-
+            
             if !viewModel.thermalStateMessage.isEmpty {
                 Text(viewModel.thermalStateMessage)
                     .padding()
@@ -62,7 +64,7 @@ struct CameraControlsView: View {
                     .cornerRadius(8)
                     .foregroundColor(.black)
             }
-
+            
             // HUD Controls
             if viewModel.showHUD {
                 Picker("HUD Segment", selection: $viewModel.selectedManualHUDSegment) {
@@ -74,7 +76,7 @@ struct CameraControlsView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.bottom, 10)
-
+                
                 Group {
                     switch viewModel.selectedManualHUDSegment {
                     case 0: focusControls
@@ -99,27 +101,59 @@ struct CameraControlsView: View {
             Group {
                 if viewModel.coverViewVisible {
                     ZStack {
-                        Color.black.opacity(0.8)
+                        Color.black.opacity(1.0)
                             .ignoresSafeArea()
+                            .edgesIgnoringSafeArea(.all)
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                        
                         VStack {
                             Button(action: {
                                 viewModel.coverViewVisible = false
                             }) {
-                                Text("Remove Cover")
-                                    .padding()
-                                    .background(Color.white)
-                                    .foregroundColor(.black)
-                                    .cornerRadius(8)
+                                
+                                HStack {
+                                    
+                                    
+                                    Image(systemName: "rectangle.and.arrow.up.right.and.arrow.down.left.slash")
+                                        .imageScale(.large)
+                                        .foregroundStyle(.tint)
+                                }
+                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                                .background {
+                                    Color.black.opacity(1.0)
+                                }
+                                .edgesIgnoringSafeArea(.all)
+                                
+                                //                                rectangle.and.arrow.up.right.and.arrow.down.left.slash
+                                //                                Text("Remove Cover")
+                                //                                    .padding()
+                                //                                    .background(Color.white)
+                                //                                    .foregroundColor(.black)
+                                //                                    .cornerRadius(8)
                             }
                             Spacer()
                         }
                         .padding()
                     }
+                } else {
+                    //                    HStack {
+                    //                        Image(systemName: "play.slash")
+                    //                            .imageScale(.large)
+                    //                            .foregroundStyle(.tint)
+                    //                        Text("SESSION NOT RUNNING")
+                    //                            .foregroundStyle(.tint)
+                    //                            .scaledToFit()
+                    //                    }
+                    //                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    //                    .background {
+                    //                        Color.black.opacity(1.0)
+                    //                    }
+                    //                    .edgesIgnoringSafeArea(.all)
                 }
             }
         )
     }
-
+    
     // MARK: - Focus Controls
     private var focusControls: some View {
         VStack(alignment: .leading) {
@@ -133,33 +167,33 @@ struct CameraControlsView: View {
             .onChange(of: viewModel.focusMode) { oldMode, newMode in
                 viewModel.setFocusMode(newMode)
             }
-
+            
             Text("Lens Position")
                 .foregroundColor(.white)
             Slider(value: Binding(get: { Double(viewModel.lensPositionSliderValue) },
                                   set: { val in viewModel.lensPositionSliderValue = Float(val) }),
                    in: 0...1)
-                .disabled(!viewModel.canSetLensPosition)
-                .onChange(of: viewModel.lensPositionSliderValue) { oldSliderValue, newSliderValue in
-                    viewModel.setLensPosition(viewModel.lensPositionSliderValue)
-                }
-
+            .disabled(!viewModel.canSetLensPosition)
+            .onChange(of: viewModel.lensPositionSliderValue) { oldSliderValue, newSliderValue in
+                viewModel.setLensPosition(viewModel.lensPositionSliderValue)
+            }
+            
             Text("Long Press to Rescale Lens Slider Range")
                 .font(.footnote)
                 .foregroundColor(.white)
-
+            
             Rectangle()
                 .fill(Color.clear)
                 .frame(height: 40)
                 .gesture(
                     LongPressGesture(minimumDuration: 0.5)
                         .onEnded { _ in
-//                            viewModel.setLensPositionScale(viewModel.lensPositionSliderValue)
+                            //                            viewModel.setLensPositionScale(viewModel.lensPositionSliderValue)
                         }
                 )
         }
     }
-
+    
     // MARK: - Exposure Controls
     private var exposureControls: some View {
         VStack(alignment: .leading) {
@@ -173,7 +207,7 @@ struct CameraControlsView: View {
             .onChange(of: viewModel.exposureMode) { oldMode, mode in
                 viewModel.setExposureMode(mode)
             }
-
+            
             Text("Exposure Duration")
                 .foregroundColor(.white)
             Slider(value: $viewModel.exposureDurationSliderValue, in: 0...1)
@@ -181,7 +215,7 @@ struct CameraControlsView: View {
                 .onChange(of: viewModel.exposureDurationSliderValue) { _, _ in
                     viewModel.applyExposureDuration()
                 }
-
+            
             Text("ISO")
                 .foregroundColor(.white)
             Slider(value: $viewModel.ISOSliderValue, in: 0...1)
@@ -191,7 +225,7 @@ struct CameraControlsView: View {
                 }
         }
     }
-
+    
     // MARK: - Zoom Controls
     private var zoomControls: some View {
         VStack(alignment: .leading) {
@@ -203,7 +237,7 @@ struct CameraControlsView: View {
                 }
         }
     }
-
+    
     // MARK: - Torch Controls
     private var torchControls: some View {
         VStack(alignment: .leading) {
@@ -212,12 +246,12 @@ struct CameraControlsView: View {
             Slider(value: Binding(get: { Double(viewModel.torchLevelSliderValue) },
                                   set: { val in viewModel.torchLevelSliderValue = Float(val) }),
                    in: 0...1)
-                .onChange(of: viewModel.torchLevelSliderValue) { _, _ in
-                    viewModel.applyTorchLevel()
-                }
+            .onChange(of: viewModel.torchLevelSliderValue) { _, _ in
+                viewModel.applyTorchLevel()
+            }
         }
     }
-
+    
     // MARK: - White Balance Controls
     private var whiteBalanceControls: some View {
         VStack(alignment: .leading) {
@@ -231,7 +265,7 @@ struct CameraControlsView: View {
             .onChange(of: viewModel.whiteBalanceMode) { oldMode, newMode in
                 viewModel.setWhiteBalanceMode(newMode)
             }
-
+            
             Text("Temperature")
                 .foregroundColor(.white)
             Slider(value: $viewModel.temperatureSliderValue, in: 0...1)
@@ -239,7 +273,7 @@ struct CameraControlsView: View {
                 .onChange(of: viewModel.temperatureSliderValue) { oldTemperatureSliderValue, newTemperatureSliderValue in
                     viewModel.applyWhiteBalanceGains()
                 }
-
+            
             Text("Tint")
                 .foregroundColor(.white)
             Slider(value: $viewModel.tintSliderValue, in: 0...1)
@@ -247,7 +281,7 @@ struct CameraControlsView: View {
                 .onChange(of: viewModel.tintSliderValue) { oldTintSliderValue, TintSliderValue in
                     viewModel.applyWhiteBalanceGains()
                 }
-
+            
             Button("Gray World") {
                 viewModel.lockWithGrayWorld()
             }
