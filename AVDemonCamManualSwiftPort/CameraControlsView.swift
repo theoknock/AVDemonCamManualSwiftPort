@@ -29,18 +29,20 @@ struct CameraControlsView: View {
                         )
                 }
                 .disabled(!viewModel.showHUD)
+                .opacity(viewModel.showHUD ? 1 : 0 )
                 
                 Button(action: {
                     viewModel.coverViewVisible.toggle()
                 }) {
-                    Text("Toggle Cover")
-                        .padding()
-                        .background(Color.black.opacity(0.5))
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
-                    
-                    
+                    Label(viewModel.coverViewVisible ? "Reveal HUD" : "Cloak HUD", systemImage: viewModel.coverViewVisible ? "eye" : "eye.slash")
+//                    Text("Toggle Cover")
+//                        .padding()
+//                        .background(Color.black.opacity(0.5))
+//                        .cornerRadius(8)
+//                        .foregroundColor(.white)
                 }
+//                .disabled(!viewModel.showHUD)
+//                .opacity(viewModel.showHUD ? 1 : 0 )
             }
             .padding(.bottom, 10)
             

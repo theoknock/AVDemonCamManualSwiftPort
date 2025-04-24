@@ -132,17 +132,34 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
             if self.session.canAddOutput(movieOutput) {
                 self.session.addOutput(movieOutput)
                 self.movieFileOutput = movieOutput
+
+                // Set preferred video stabilization mode after adding output
+                if let connection = movieOutput.connection(with: .video),
+                   connection.isVideoStabilizationSupported {
+                    connection.preferredVideoStabilizationMode = .cinematic
+                    print("Video stabilization mode set to cinematic.")
+                } else {
+                    print("Video stabilization not supported on this connection.")
+                }
+
             } else {
                 self.setupResult = .sessionConfigurationFailed
                 self.session.commitConfiguration()
                 return
             }
             
-            if let connection  = movieOutput.connection(with: .video) {
-                if connection.isVideoStabilizationSupported {
-                    connection.preferredVideoStabilizationMode = .auto
-                }
-            }
+//            // Add movie file output
+//            let movieOutput = AVCaptureMovieFileOutput()
+//            if self.session.canAddOutput(movieOutput) {
+//                self.session.addOutput(movieOutput)
+//                self.movieFileOutput = movieOutput
+//            } else {
+//                self.setupResult = .sessionConfigurationFailed
+//                self.session.commitConfiguration()
+//                return
+//            }
+            
+            
             self.session.commitConfiguration()
             
             self.startSession()
