@@ -39,7 +39,7 @@ struct CameraView: View {
         
         VStack {
             Link(destination: URL(string: "https://github.com/theoknock/AVDemonCamManualSwiftPort/tree/main")!) {
-                Text("AVMotionDetector2025 (b1fab7e)\t\tJames Alan Bush")
+                Text("AVMotionDetector2025 (35f1719) | James Alan Bush")
                     .font(.system(size: 10))
                     .foregroundColor(.gray)
                     .fixedSize() // Prevents text from wrapping or expanding vertically

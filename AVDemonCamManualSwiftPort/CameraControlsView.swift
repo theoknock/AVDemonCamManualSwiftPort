@@ -13,11 +13,8 @@ struct CameraControlsView: View {
                 
                 
                 Button(action: { viewModel.showHUD.toggle() }) {
-                    Text(viewModel.showHUD ? "Hide HUD" : "Show HUD")
-                        .padding()
-                        .background(Color.blue.opacity(0.5))
-                        .cornerRadius(8)
-                        .foregroundColor(.white)
+                    Image(systemName: viewModel.showHUD ? "light.panel.fill" : "light.panel")
+                        .font(.largeTitle)
                 }
                 
                 Button(action: viewModel.toggleMovieRecording) {
@@ -28,23 +25,13 @@ struct CameraControlsView: View {
                             !viewModel.showHUD ? Color.black : Color.clear
                         )
                 }
-                .disabled(!viewModel.showHUD)
-                .opacity(viewModel.showHUD ? 1 : 0 )
                 
-                Button(action: {
-                    viewModel.coverViewVisible.toggle()
-                }) {
-                    Label(viewModel.coverViewVisible ? "" : "", systemImage: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.down.left.slash" : "rectangle.and.arrow.up.right.and.arrow.down.left")
-                    //                    Text("Toggle Cover")
-//                                            .padding()
-//                                            .background(Color.black.opacity(0.5))
-//                                            .cornerRadius(8)
-                    //                        .foregroundColor(.white)
+                
+                Button(action: { viewModel.coverViewVisible.toggle() }) {
+                    Image(systemName: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.down.left.slash" : "rectangle.and.arrow.up.right.and.arrow.down.left")
+                        .font(.largeTitle)
                 }
-                //                .disabled(!viewModel.showHUD)
-                //                .opacity(viewModel.showHUD ? 1 : 0 )
             }
-            .padding(.bottom, 10)
             
             // Conditional Buttons and Messages
             if viewModel.resumeButtonVisible {
