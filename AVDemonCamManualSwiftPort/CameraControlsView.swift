@@ -9,159 +9,90 @@ struct CameraControlsView: View {
     
     var body: some View {
         VStack {
-            
-            //            viewModel.showHUD
-            //            RoundedRectangle(cornerSize: CGSize(width: 100, height: 100))
-            
-            // Top Control Buttons
             HStack {
-                
-                //                Button(action: { viewModel.showHUD.toggle() }) {
-                //                    Image(systemName: viewModel.showHUD ? "light.panel.fill" : "light.panel")
+                //                Button(action: { viewModel.coverViewVisible.toggle() }) {
+                //                    Image(systemName: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.up.left" : "rectangle.and.arrow.down.right.and.arrow.down.left")
                 //                        .font(.largeTitle)
                 //                }
+                //
+                //                // Conditional Buttons and Messages
+                //                if viewModel.resumeButtonVisible {
+                //                    Button("Resume") {
+                //                        viewModel.startSession()
+                //                    }
+                //                    .padding()
+                //                    .background(Color.orange)
+                //                    .foregroundColor(.white)
+                //                    .cornerRadius(8)
+                //                }
+                //
+                //                if viewModel.cameraUnavailable {
+                //                    Text("Camera Unavailable")
+                //                        .padding()
+                //                        .background(Color.red.opacity(0.5))
+                //                        .cornerRadius(8)
+                //                        .foregroundColor(.white)
+                //                }
+                //
+                //                if !viewModel.thermalStateMessage.isEmpty {
+                //                    Text(viewModel.thermalStateMessage)
+                //                        .padding()
+                //                        .background(Color.yellow.opacity(0.5))
+                //                        .cornerRadius(8)
+                //                        .foregroundColor(.black)
+                //                }
                 
-                Button(action: viewModel.toggleMovieRecording) {
-                    Image(systemName: viewModel.isRecording ? "stop.circle" : "record.circle")
-                        .font(.largeTitle)
-                        .foregroundColor(viewModel.isRecording ? .red : .green)
-                        .overlay(
-                            !viewModel.showHUD ? Color.black : Color.clear
-                        )
-                }
-                
-                
-                Button(action: { viewModel.coverViewVisible.toggle() }) {
-                    Image(systemName: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.up.left" : "rectangle.and.arrow.down.right.and.arrow.down.left")
-                        .font(.largeTitle)
-                }
             }
-            .frame(width: viewModel.showHUD ? 300 : 100, height: viewModel.showHUD ? 300 : 100)
-            .overlay {
-                Color.gray.opacity(1.0)
-                    .scaledToFill()
-            }
-            .border(Color.black, width: 3)
-            .onTapGesture {
-                withAnimation(.easeInOut(duration: 0.5)) {
-                    viewModel.showHUD.toggle()
-                }
-            }
-            
-            
-            
-            // Conditional Buttons and Messages
-            if viewModel.resumeButtonVisible {
-                Button("Resume") {
-                    viewModel.startSession()
-                }
-                .padding()
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
-            
-            if viewModel.cameraUnavailable {
-                Text("Camera Unavailable")
-                    .padding()
-                    .background(Color.red.opacity(0.5))
-                    .cornerRadius(8)
-                    .foregroundColor(.white)
-            }
-            
-            if !viewModel.thermalStateMessage.isEmpty {
-                Text(viewModel.thermalStateMessage)
-                    .padding()
-                    .background(Color.yellow.opacity(0.5))
-                    .cornerRadius(8)
-                    .foregroundColor(.black)
-            }
-            
-            // HUD Controls
-            if viewModel.showHUD {
-                Picker("HUD Segment", selection: $viewModel.selectedManualHUDSegment) {
-                    Text("Focus").tag(0)
-                    Text("Exposure").tag(1)
-                    Text("Zoom").tag(2)
-                    Text("Torch").tag(3)
-                    Text("WB").tag(4)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding(.bottom, 10)
-                
-                Group {
-                    switch viewModel.selectedManualHUDSegment {
-                    case 0: focusControls
-                    case 1: exposureControls
-                    case 2: zoomControls
-                    case 3: torchControls
-                    case 4: whiteBalanceControls
-                    default: EmptyView()
+            HStack {
+                // HUD Controls
+                if viewModel.showHUD {
+                    Picker("HUD Segment", selection: $viewModel.selectedManualHUDSegment) {
+                        Text("Focus").tag(0)
+                        Text("Exposure").tag(1)
+                        Text("Zoom").tag(2)
+                        Text("Torch").tag(3)
+                        Text("WB").tag(4)
                     }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.bottom, 10)
+                    
+                    Group {
+                        switch viewModel.selectedManualHUDSegment {
+                        case 0: focusControls
+                        case 1: exposureControls
+                        case 2: zoomControls
+                        case 3: torchControls
+                        case 4: whiteBalanceControls
+                        default: EmptyView()
+                        }
+                    }
+                    .padding()
+                    .background(Color.black.opacity(0.7))
+                    .cornerRadius(10)
                 }
-                .padding()
-                .background(Color.black.opacity(0.7))
-                .cornerRadius(10)
+                
             }
         }
-        .padding()
-        .background(Color.black.opacity(0.5))
-        .cornerRadius(10)
-        .padding()
-        .overlay(
-            // Cover Overlay
-            Group {
-                if viewModel.coverViewVisible {
-                    ZStack {
-                        Color.black.opacity(1.0)
-                            .ignoresSafeArea()
-                            .edgesIgnoringSafeArea(.all)
-                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                        
-                        VStack {
-                            Button(action: {
-                                viewModel.coverViewVisible = false
-                            }) {
-                                
-                                HStack {
-                                    Image(systemName: "rectangle.and.arrow.up.right.and.arrow.down.left.slash")
-                                        .imageScale(.large)
-                                        .foregroundStyle(.tint)
-                                }
-                                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                                .background {
-                                    Color.black.opacity(1.0)
-                                }
-                                .edgesIgnoringSafeArea(.all)
-                                
-                                //                                rectangle.and.arrow.up.right.and.arrow.down.left.slash
-                                //                                Text("Remove Cover")
-                                //                                    .padding()
-                                //                                    .background(Color.white)
-                                //                                    .foregroundColor(.black)
-                                //                                    .cornerRadius(8)
-                            }
-                            Spacer()
-                        }
-                        .padding()
-                    }
-                } else {
-                    //                    HStack {
-                    //                        Image(systemName: "play.slash")
-                    //                            .imageScale(.large)
-                    //                            .foregroundStyle(.tint)
-                    //                        Text("SESSION NOT RUNNING")
-                    //                            .foregroundStyle(.tint)
-                    //                            .scaledToFit()
-                    //                    }
-                    //                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                    //                    .background {
-                    //                        Color.black.opacity(1.0)
-                    //                    }
-                    //                    .edgesIgnoringSafeArea(.all)
-                }
+        .frame(width: viewModel.showHUD ? 300 : 100, height: viewModel.showHUD ? 300 : 100)
+        .overlay {
+            Color.black.opacity(0.5)
+                .scaledToFill()
+        }
+        .onTapGesture {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                viewModel.showHUD.toggle()
             }
-        )
+        }
+        
+        Button(action: viewModel.toggleMovieRecording) {
+            Image(systemName: viewModel.isRecording ? "stop.circle" : "record.circle")
+                .font(.largeTitle)
+                .foregroundColor(viewModel.isRecording ? .red : .green)
+//                .overlay(
+//                    !viewModel.showHUD ? Color.black : Color.clear
+//                )
+        }
+
     }
     
     // MARK: - Focus Controls
