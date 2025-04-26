@@ -132,6 +132,12 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
             if self.session.canAddOutput(movieOutput) {
                 self.session.addOutput(movieOutput)
                 self.movieFileOutput = movieOutput
+                
+                if let connection = movieOutput.connection(with: .video) {
+                    if connection.isVideoRotationAngleSupported(90.0) {
+                        connection.videoRotationAngle = 90.0
+                    }
+                }
 
                 // Set preferred video stabilization mode after adding output
                 if let connection = movieOutput.connection(with: .video),
@@ -278,14 +284,15 @@ class CameraViewModel: NSObject, ObservableObject, AVCaptureFileOutputRecordingD
     
     // MARK: - Thermal State Observation
     func observeThermalState() {
-        NotificationCenter.default.addObserver(forName: ProcessInfo.thermalStateDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
-            var thermalState = ProcessInfo.processInfo.thermalState
-            //            if thermalState >= .serious {
-            //                self?.thermalStateMessage = "High thermal state detected. Consider reducing load."
-            //            } else {
-            //                self?.thermalStateMessage = ""
-            //            }
-        }
+//        NotificationCenter.default.addObserver(forName: ProcessInfo.thermalStateDidChangeNotification, object: nil, queue: .main) { [weak self] _ in
+//            var thermalState = ProcessInfo.processInfo.thermalState
+//            //            if thermalState >= .serious {
+//            //                self?.thermalStateMessage = "High thermal state detected. Consider reducing load."
+//            //            } else {
+//            /Users/xcodedeveloper/Desktop/AVDemonCamManualSwiftPortGIT/AVDemonCamManualSwiftPort/CameraViewModel.swift:281:139 Variable 'self' was written to, but never read
+//            //                self?.thermalStateMessage = ""
+//            //            }
+//        }
     }
     
     // MARK: - Focus Controls

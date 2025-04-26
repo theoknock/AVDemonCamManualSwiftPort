@@ -5,17 +5,21 @@ import Foundation
 
 struct CameraControlsView: View {
     @ObservedObject var viewModel: CameraViewModel
+    @State private var isLarge = false
     
     var body: some View {
         VStack {
+            
+            //            viewModel.showHUD
+            //            RoundedRectangle(cornerSize: CGSize(width: 100, height: 100))
+            
             // Top Control Buttons
             HStack {
                 
-                
-                Button(action: { viewModel.showHUD.toggle() }) {
-                    Image(systemName: viewModel.showHUD ? "light.panel.fill" : "light.panel")
-                        .font(.largeTitle)
-                }
+                //                Button(action: { viewModel.showHUD.toggle() }) {
+                //                    Image(systemName: viewModel.showHUD ? "light.panel.fill" : "light.panel")
+                //                        .font(.largeTitle)
+                //                }
                 
                 Button(action: viewModel.toggleMovieRecording) {
                     Image(systemName: viewModel.isRecording ? "stop.circle" : "record.circle")
@@ -28,10 +32,23 @@ struct CameraControlsView: View {
                 
                 
                 Button(action: { viewModel.coverViewVisible.toggle() }) {
-                    Image(systemName: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.down.left.slash" : "rectangle.and.arrow.up.right.and.arrow.down.left")
+                    Image(systemName: viewModel.coverViewVisible ? "rectangle.and.arrow.up.right.and.arrow.up.left" : "rectangle.and.arrow.down.right.and.arrow.down.left")
                         .font(.largeTitle)
                 }
             }
+            .frame(width: viewModel.showHUD ? 300 : 100, height: viewModel.showHUD ? 300 : 100)
+            .overlay {
+                Color.gray.opacity(1.0)
+                    .scaledToFill()
+            }
+            .border(Color.black, width: 3)
+            .onTapGesture {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    viewModel.showHUD.toggle()
+                }
+            }
+            
+            
             
             // Conditional Buttons and Messages
             if viewModel.resumeButtonVisible {

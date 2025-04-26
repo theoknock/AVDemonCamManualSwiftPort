@@ -28,7 +28,7 @@ struct CameraView: View {
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 .background {
-                    Color.clear.opacity(1.0)
+                    Color.clear.opacity(0.0)
                 }
                 .edgesIgnoringSafeArea(.all)
             }
